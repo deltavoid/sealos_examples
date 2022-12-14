@@ -1,0 +1,67 @@
+apiVersion: apps.sealos.io/v1beta1
+kind: Cluster
+metadata:
+  creationTimestamp: "2022-12-13T07:16:40Z"
+  name: default
+spec:
+  hosts:
+  - ips:
+    - 192.168.1.191:22
+    roles:
+    - master
+    - amd64
+  - ips:
+    - 192.168.1.192:22
+    - 192.168.1.193:22
+    roles:
+    - node
+    - amd64
+  image:
+  - labring/kubernetes:v1.24.0
+  - labring/flannel:v0.19.0
+  ssh:
+    pk: /root/.ssh/id_rsa
+    port: 22
+    user: root
+status:
+  conditions:
+  - lastHeartbeatTime: "2022-12-13T07:17:27Z"
+    message: Applied to cluster successfully
+    reason: Ready
+    status: "True"
+    type: ApplyClusterSuccess
+  mounts:
+  - env:
+      criData: /var/lib/containerd
+      disableApparmor: "false"
+      registryConfig: /etc/registry
+      registryData: /var/lib/registry
+      registryDomain: sealos.hub
+      registryPassword: passw0rd
+      registryPort: "5000"
+      registryUsername: admin
+    imageName: labring/kubernetes:v1.24.0
+    labels:
+      auth: auth.sh
+      check: check.sh $registryData
+      clean: clean.sh $criData
+      clean-registry: clean-registry.sh $registryData $registryConfig
+      image: ghcr.io/labring/lvscare:v4.1.3
+      init: init.sh $registryDomain $registryPort
+      init-registry: init-registry.sh $registryData $registryConfig
+      io.buildah.version: 1.25.0-dev
+      sealos.io.type: rootfs
+      sealos.io.version: v1beta1
+      version: v1.24.0
+    mountPoint: /var/lib/containers/storage/overlay/d65bf50e46a7dfff78969962b0b758e6b4ee0408c1016cc89350a74483a455e6/merged
+    name: default-l7y6ktpv
+    type: rootfs
+  - cmd:
+    - kubectl apply -f manifests/kube-flannel.yml
+    imageName: labring/flannel:v0.19.0
+    labels:
+      io.buildah.version: 1.25.0-dev
+    mountPoint: /var/lib/containers/storage/overlay/b90580e7675d79371b90c49532343738afa813b7237e9fc328d4e0ea80cc5f4b/merged
+    name: default-btwl3k16
+    type: application
+  phase: ClusterSuccess
