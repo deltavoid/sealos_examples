@@ -1,0 +1,27 @@
+apiVersion: apps.sealos.io/v1beta1
+kind: Cluster
+metadata:
+  creationTimestamp: null
+  name: default
+spec:
+  hosts:
+  - ips:
+    - 192.168.1.191:22
+    roles:
+    - master
+    - amd64
+  - ips:
+    - 192.168.1.192:22
+    - 192.168.1.193:22
+    roles:
+    - node
+    - amd64
+  image:
+  - labring/kubernetes:v1.24.0
+  - labring/helm:v3.8.2
+  - labring/flannel:v0.19.0
+  ssh:
+    pk: /root/.ssh/id_rsa
+    port: 22
+status: {}
+
