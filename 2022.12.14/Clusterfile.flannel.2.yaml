@@ -29,7 +29,7 @@ status: {}
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
 networking:
-  podSubnet: 100.64.0.0/12
+  podSubnet: 10.64.0.0/12
   serviceSubnet: 10.96.0.0/22
 ---
 apiVersion: apps.sealos.io/v1beta1
@@ -122,7 +122,7 @@ spec:
         }
       net-conf.json: |
         {
-          "Network": "100.64.0.0/12",
+          "Network": "10.64.0.0/12",
           "Backend": {
             "Type": "vxlan"
             # "Type": "host-gw"
